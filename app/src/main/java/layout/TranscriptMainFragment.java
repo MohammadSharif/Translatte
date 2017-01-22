@@ -243,14 +243,16 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 parentActivity.passTranslatedJSON( translatedJSON);
                 JSONObject data = translatedJSON.getJSONObject("data");
                 JSONArray translations = data.getJSONArray("translations");
-                JSONObject firstTranslation = translations.getJSONObject(0);
-                String translatedText = firstTranslation.get("translatedText").toString();
-                Log.i("translated data", translatedText);
-                currentTranslatedText = translatedText;
+                currentTranslatedText = "";
+                for(int i = 0; i < translations.length(); i++) {
+                    JSONObject curTranslation = translations.getJSONObject(i);
+                    String curTranslatedText = curTranslation.get("translatedText").toString();
+                    currentTranslatedText += curTranslatedText;
+                }
+                Log.i("translated data", currentTranslatedText);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            transcript_original_text.setText(s);
             Log.i("json", s + "d");
         }
     }
