@@ -41,6 +41,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -95,7 +96,7 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.ocr_capture);
-        Button handleTextButton = (Button)findViewById(R.id.button3);
+        ImageButton handleTextButton = (ImageButton)findViewById(R.id.button3);
         handleTextButton.setOnClickListener(this);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);

@@ -43,23 +43,20 @@ public class TranscriptActivity extends FragmentActivity  {
         Bundle transcriptBundle = getIntent().getExtras();
         ArrayList ocrOutput = (ArrayList) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
-        Log.v(TAG, transcriptLanguage);
 
-        setMainTranscriptText(ocrOutput);
+        setTextTranscript(ocrOutput);
+
+
     }
 
-    // Set OCR output
-    public void setMainTranscriptText(ArrayList<String> output){
-        StringBuilder builder = new StringBuilder();
-        for(String x : output){
-            builder.append(x + " ");
+    //set text on translate
+    public void setTextTranscript(ArrayList ocrOutput){
+        TranscriptMainFragment fragment = (TranscriptMainFragment) getFragmentManager().findFragmentById(R.id.fragment_transcript_main);
+        if(fragment != null){
+            ((TextView) findViewById(R.id.transcript_original_text)).setText(ocrOutput.toString());
         }
-
-        TextView transcriptTextView = (TextView) findViewById(R.id.transcript_original_text);
-
-        transcriptTextView.setText(builder.toString());
-
     }
+
 
     // Show Transcript Fragment
     public void addTranscriptFragment(){
@@ -101,7 +98,10 @@ public class TranscriptActivity extends FragmentActivity  {
     }
 
 
-    public void passTranslatedJSON(String text) {
-        ((TextView) findViewById(R.id.transcript_translated_text)).setText(text);
+    public void passTranslatedJSON(JSONObject translatedJSON) {
+        TranscriptTranslateFragment fragment = (TranscriptTranslateFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate));
+        if(fragment != null) {
+            fragment.setTranslatedJSON(translatedJSON);
+        }
     }
 }

@@ -20,8 +20,7 @@
         <TextView
             android:id="@+id/transcript_original_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="What is your name?"/>
+            android:layout_height="wrap_content" />
 
     </ScrollView>
 
@@ -54,6 +53,7 @@
             android:background="@color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/translate_button"/>
+
 
     </LinearLayout>
 

@@ -138,7 +138,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 displayLangs.add(dispLang);
             }
         }
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this.getActivity().getBaseContext(), android.R.layout.simple_spinner_item, displayLangs);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this.getActivity().getBaseContext(), android.R.layout.simple_spinner_item, displayLangs = displayLangs.subList(1,displayLangs.size()));
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
     }
@@ -239,6 +239,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                     return response;
                 } else {
                     Log.e("Momo", "The Translate API had an error responding");
+                    return null;
                 }
 
             } catch (IOException e) {
@@ -268,21 +269,23 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
             super.onPostExecute(map);
 
             try {
-                JSONObject translatedJSON = new JSONObject(map);
+                if(map != null){
+                    JSONObject translatedJSON = new JSONObject(map);
 //                parentActivity.passTranslatedJSON( translatedJSON);
 //                JSONObject data = translatedJSON.getJSONObject("contextWrites");
-                String translations = translatedJSON.getString("success");
-                Log.i("JSON", translatedJSON.toString());
+                    String translations = translatedJSON.getString("success");
+                    Log.i("JSON", translatedJSON.toString());
 
 
-                currentTranslatedText = "";
+                    currentTranslatedText = "";
 //                for(int i = 0; i < translations.length(); i++) {
 //                    JSONObject curTranslation = translations.getJSONObject(i);
 //                    String curTranslatedText = curTranslation.get("translatedText").toString();
 //                    currentTranslatedText += curTranslatedText;
 //                }
-                parentActivity.passTranslatedJSON(translations);
-                Log.i("translated data", translations);
+                    //parentActivity.passTranslatedJSON(translations);
+                    Log.i("translated data", translations);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
