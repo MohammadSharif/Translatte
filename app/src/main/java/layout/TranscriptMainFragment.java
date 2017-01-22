@@ -96,7 +96,9 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 //call translate api and pass to addtranslatefragment
                 TranslateText request = new TranslateText(transcript_original_text.getText().toString(), "en", getSpinnerLanguage());
                 request.execute();
-                parentActivity.addTranslateFragment();
+                String curLocaleStr = this.spinner.getSelectedItem().toString();
+                Locale curLoc = localeMap.get(curLocaleStr);
+                parentActivity.addTranslateFragment(curLoc);
                 break;
             case R.id.transcript_play_button:
                 speakOut();
@@ -144,9 +146,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     }
 
     private void speakOut() {
-        String locLang = spinner.getSelectedItem().toString();
-        Locale loc = localeMap.get(locLang);
-        tts.setLanguage(loc);
+        //assume the text from the ocr is english
+        tts.setLanguage(localeMap.get("English"));
         Log.i("speaking", (String)transcript_original_text.getText());
         tts.speak(transcript_original_text.getText(), TextToSpeech.QUEUE_FLUSH, null, null);
     }
