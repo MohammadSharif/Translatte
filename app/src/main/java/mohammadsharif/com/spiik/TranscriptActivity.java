@@ -91,10 +91,7 @@ public class TranscriptActivity extends FragmentActivity  {
     }
 
 
-    public void passTranslatedJSON(JSONObject translatedJSON) {
-        TranscriptTranslateFragment fragment = (TranscriptTranslateFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate));
-        if(fragment != null) {
-            fragment.setTranslatedJSON(translatedJSON);
-        }
+    public void passTranslatedJSON(String text) {
+        ((TextView) findViewById(R.id.transcript_translated_text)).setText(text);
     }
 }
