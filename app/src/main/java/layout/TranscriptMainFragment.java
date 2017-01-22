@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +48,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private Spinner spinner;
     private HashMap<String, Locale> localeMap;
     private TranscriptActivity parentActivity;
+    private String currentTranslatedText;
 
     @Nullable
     @Override
@@ -131,17 +133,15 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private void speakOut() {
         String locLang = spinner.getSelectedItem().toString();
         Locale loc = localeMap.get(locLang);
-        Log.v(locLang, "test");
         tts.setLanguage(loc);
-        String text = "hello my name is arjun";
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        Log.i("speaking", currentTranslatedText);
+        tts.speak(currentTranslatedText, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
     private String getSpinnerLanguage(){
         String defLang = spinner.getSelectedItem().toString();
         Locale loc = localeMap.get(defLang);
         Log.v("TEST", loc.getLanguage());
-
         return loc.getLanguage();
     }
 
@@ -241,14 +241,18 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
             try {
                 JSONObject translatedJSON = new JSONObject(s);
                 parentActivity.passTranslatedJSON( translatedJSON);
-
+                JSONObject data = translatedJSON.getJSONObject("data");
+                JSONArray translations = data.getJSONArray("translations");
+                JSONObject firstTranslation = translations.getJSONObject(0);
+                String translatedText = firstTranslation.get("translatedText").toString();
+                Log.i("translated data", translatedText);
+                currentTranslatedText = translatedText;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             transcript_original_text.setText(s);
             Log.i("json", s + "d");
         }
-
     }
 
 
