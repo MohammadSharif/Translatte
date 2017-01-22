@@ -27,7 +27,7 @@
 
         </activity>
 
-        <activity android:name=".TranscriptActivity"></activity>
+        <activity android:name=".Homepage"></activity>
     </application>
 
 </manifest>

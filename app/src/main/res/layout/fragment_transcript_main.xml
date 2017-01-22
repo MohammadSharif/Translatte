@@ -51,13 +51,6 @@
             android:layout_weight="1"
             android:text="Translate"/>
 
-        <Button
-            android:id="@+id/transcript_play_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Translate"/>
-
     </LinearLayout>
 
 
