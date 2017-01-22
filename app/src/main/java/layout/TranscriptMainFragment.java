@@ -29,6 +29,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private Button transcript_translate;
     private TextToSpeech tts;
     private Spinner spinner;
+    private HashMap<String, Locale> localeMap;
 
     @Nullable
     @Override
@@ -37,8 +38,12 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
 
         transcript_translate = (Button) view.findViewById(R.id.transcript_translate_button);
         transcript_translate.setOnClickListener(this);
+
         tts = new TextToSpeech(this.getActivity().getBaseContext(), this);
         spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        //Check if connected to the internet
+       
         return view;
     }
 
@@ -46,11 +51,11 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.transcript_translate_button:
-                Log.v("Test","Not");
-                ((TranscriptActivity)getActivity()).addTranscriptFragment();
+                ((TranscriptActivity)getActivity()).addTranslateFragment();
+                break;
+            case R.id.transcript_play_button:
                 speakOut();
                 break;
-
         }
     }
 
@@ -72,7 +77,6 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 Log.e("TTS", "This Language is not supported");
             } else {
                 transcript_translate.setEnabled(true);
-                speakOut();
             }
         } else {
             Log.e("TTS", "Initilization Failed!");
@@ -81,8 +85,10 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         Set<Locale> langs = tts.getAvailableLanguages();
         List<Locale> list = new ArrayList<Locale>(langs);
         List<String> displayLangs = new ArrayList<String>();
+        localeMap = new HashMap<>();
         for(int i = 0; i < list.size(); i++) {
             String dispLang = list.get(i).getDisplayLanguage();
+            localeMap.put(dispLang, list.get(i));
             if(!displayLangs.contains(dispLang)) {
                 displayLangs.add(dispLang);
             }
@@ -93,8 +99,9 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     }
 
     private void speakOut() {
-        String locLang = spinner.toString();
-        Locale loc = new Locale(locLang);
+        String locLang = spinner.getSelectedItem().toString();
+        Locale loc = localeMap.get(locLang);
+        Log.v(locLang, "test");
         tts.setLanguage(loc);
         String text = "hello my name is arjun";
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
