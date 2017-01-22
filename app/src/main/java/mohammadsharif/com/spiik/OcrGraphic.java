@@ -40,6 +40,8 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
     private static Paint sTextPaint;
     private final TextBlock mText;
 
+    public boolean isSelected = false;
+
     OcrGraphic(GraphicOverlay overlay, TextBlock text) {
         super(overlay);
 
@@ -109,8 +111,14 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         rect.top = translateY(rect.top);
         rect.right = translateX(rect.right);
         rect.bottom = translateY(rect.bottom);
+        if(this.isSelected) {
+            sRectPaint.setColor(Color.GREEN);
+        }
         canvas.drawRect(rect, sRectPaint);
-
+//        if(this.isSelected) {
+//            sRectPaint.setColor(Color.WHITE);
+//            this.isSelected = false;
+//        }
         // Break the text into multiple lines and draw each one according to its own bounding box.
         List<? extends Text> textComponents = text.getComponents();
         for(Text currentText : textComponents) {
@@ -118,5 +126,26 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
             float bottom = translateY(currentText.getBoundingBox().bottom);
             canvas.drawText(currentText.getValue(), left, bottom, sTextPaint);
         }
+    }
+
+
+    // Paints the surrounding rectangle
+    public void paintRectangle(int color, Canvas canvas){
+        TextBlock text = mText;
+        if (text == null) {
+            return;
+        }
+
+        // Draws the bounding box around the TextBlock.
+        RectF rect = new RectF(text.getBoundingBox());
+        rect.left = translateX(rect.left);
+        rect.top = translateY(rect.top);
+        rect.right = translateX(rect.right);
+        rect.bottom = translateY(rect.bottom);
+
+        Paint toPaint = new Paint();
+        toPaint.setColor(color);
+
+        canvas.drawRect(rect, toPaint);
     }
 }

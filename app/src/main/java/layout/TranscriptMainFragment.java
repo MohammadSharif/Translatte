@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +41,8 @@ import java.util.Set;
 import mohammadsharif.com.spiik.R;
 import mohammadsharif.com.spiik.TranscriptActivity;
 
+import com.rapidapi.rapidconnect.RapidApiConnect;
+
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     private Button transcript_translate, transcript_play;
     private TextView transcript_original_text;
@@ -47,6 +50,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private Spinner spinner;
     private HashMap<String, Locale> localeMap;
     private TranscriptActivity parentActivity;
+    private String currentTranslatedText;
 
     @Nullable
     @Override
@@ -71,6 +75,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         if(!parentActivity.isConnected()){
             transcript_original_text.setText("Oops! Something went wrong.. No Internet Connectivity");
         }
+
+        RapidApiConnect connect = new RapidApiConnect('Translatte', 'b4d6cbb4-e279-49f9-b1d4-b49d53428d91');
         return view;
     }
 
@@ -131,17 +137,15 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private void speakOut() {
         String locLang = spinner.getSelectedItem().toString();
         Locale loc = localeMap.get(locLang);
-        Log.v(locLang, "test");
         tts.setLanguage(loc);
-        String text = "hello my name is arjun";
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        Log.i("speaking", currentTranslatedText);
+        tts.speak(currentTranslatedText, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
     private String getSpinnerLanguage(){
         String defLang = spinner.getSelectedItem().toString();
         Locale loc = localeMap.get(defLang);
         Log.v("TEST", loc.getLanguage());
-
         return loc.getLanguage();
     }
 
@@ -241,14 +245,20 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
             try {
                 JSONObject translatedJSON = new JSONObject(s);
                 parentActivity.passTranslatedJSON( translatedJSON);
-
+                JSONObject data = translatedJSON.getJSONObject("data");
+                JSONArray translations = data.getJSONArray("translations");
+                currentTranslatedText = "";
+                for(int i = 0; i < translations.length(); i++) {
+                    JSONObject curTranslation = translations.getJSONObject(i);
+                    String curTranslatedText = curTranslation.get("translatedText").toString();
+                    currentTranslatedText += curTranslatedText;
+                }
+                Log.i("translated data", currentTranslatedText);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            transcript_original_text.setText(s);
             Log.i("json", s + "d");
         }
-
     }
 
 
