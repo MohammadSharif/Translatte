@@ -42,7 +42,6 @@ public class TranscriptActivity extends FragmentActivity  {
         // Get Read Text, get transcript language from OCR Bundle
         Bundle transcriptBundle = getIntent().getExtras();
         ArrayList ocrOutput = (ArrayList) transcriptBundle.get("readText");
-        ArrayList<String> oCROutput = (ArrayList<String>) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
         Log.v(TAG, transcriptLanguage);
 
@@ -80,7 +79,6 @@ public class TranscriptActivity extends FragmentActivity  {
     public void killTranslateFragment() {
         if (getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) != null) {
             getFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.animator.enter_from_bottom, R.animator.enter_from_bottom)
                    .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
         }
 
