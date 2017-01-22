@@ -44,7 +44,7 @@ public class TranscriptActivity extends FragmentActivity  {
         ArrayList ocrOutput = (ArrayList) transcriptBundle.get("readText");
         ArrayList<String> oCROutput = (ArrayList<String>) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
-        Log.v(TAG, ocrOutput.toString());
+        Log.v(TAG, transcriptLanguage);
 
         ((TextView) findViewById(R.id.transcript_original_text)).setText(ocrOutput.toString());
 
@@ -78,16 +78,12 @@ public class TranscriptActivity extends FragmentActivity  {
 
     // KILL translate fragment
     public void killTranslateFragment() {
-//        if (getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) != null) {
-//
-//
-//
-////            getFragmentManager().beginTransaction()
-////                    .setCustomAnimations(R.animator.enter_from_bottom, R.animator.enter_from_bottom)
-////                    .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
-//        }
+        if (getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) != null) {
+            getFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.animator.enter_from_bottom, R.animator.enter_from_bottom)
+                   .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
+        }
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.animator.enter_from_bottom);
     }
 
     public boolean isConnected(){
