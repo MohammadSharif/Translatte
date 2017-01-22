@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_transcript"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="match_parent"
     android:layout_weight="1"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -29,11 +29,19 @@
 
         </ScrollView>
 
-        <Button
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Play"/>
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/transcript_play_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play_button"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <ImageButton

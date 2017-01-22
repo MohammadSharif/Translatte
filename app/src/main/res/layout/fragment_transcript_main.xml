@@ -37,19 +37,23 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/transcript_play_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:background="@color/transparent"
             android:layout_weight="1"
-            android:text="Play"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/play_button"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/transcript_translate_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Translate"/>
+            android:background="@color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/translate_button"/>
 
     </LinearLayout>
 

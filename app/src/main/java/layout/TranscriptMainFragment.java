@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ import com.rapidapi.rapidconnect.Argument;
 import com.rapidapi.rapidconnect.RapidApiConnect;
 
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
-    private Button transcript_translate, transcript_play;
+    private ImageButton transcript_translate, transcript_play;
     public TextView transcript_original_text;
     private TextToSpeech tts;
     private Spinner spinner;
@@ -63,8 +64,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
 
         parentActivity = ((TranscriptActivity)getActivity());
 
-        transcript_translate = (Button) view.findViewById(R.id.transcript_translate_button);
-        transcript_play = (Button) view.findViewById(R.id.transcript_play_button);
+        transcript_translate = (ImageButton) view.findViewById(R.id.transcript_translate_button);
+        transcript_play = (ImageButton) view.findViewById(R.id.transcript_play_button);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         transcript_original_text = (TextView) view.findViewById(R.id.transcript_original_text);
 

@@ -45,9 +45,19 @@ public class TranscriptActivity extends FragmentActivity  {
         String transcriptLanguage = (String) transcriptBundle.get("language");
         Log.v(TAG, transcriptLanguage);
 
-        ((TextView) findViewById(R.id.transcript_original_text)).setText(ocrOutput.toString());
+        setMainTranscriptText(ocrOutput);
+    }
 
+    // Set OCR output
+    public void setMainTranscriptText(ArrayList<String> output){
+        StringBuilder builder = new StringBuilder();
+        for(String x : output){
+            builder.append(x + " ");
+        }
 
+        TextView transcriptTextView = (TextView) findViewById(R.id.transcript_original_text);
+
+        transcriptTextView.setText(builder.toString());
 
     }
 

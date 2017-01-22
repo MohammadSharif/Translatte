@@ -20,11 +20,13 @@
 
     </mohammadsharif.com.spiik.ui.camera.CameraSourcePreview>
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/button3"
+        android:src="@drawable/camera_button"
+        android:scaleType="fitCenter"
+        android:background="@color/transparent"
         android:layout_marginBottom="54dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
