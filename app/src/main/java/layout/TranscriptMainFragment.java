@@ -47,7 +47,7 @@ import com.rapidapi.rapidconnect.RapidApiConnect;
 
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     private Button transcript_translate, transcript_play;
-    private TextView transcript_original_text;
+    public TextView transcript_original_text;
     private TextToSpeech tts;
     private Spinner spinner;
     private HashMap<String, Locale> localeMap;
@@ -67,6 +67,9 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         transcript_play = (Button) view.findViewById(R.id.transcript_play_button);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         transcript_original_text = (TextView) view.findViewById(R.id.transcript_original_text);
+
+
+
         currentText = (String)transcript_original_text.getText();
 
         //setOnclickListeners
@@ -274,7 +277,6 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                     currentTranslatedText += curTranslatedText;
                 }
                 Log.i("translated data", currentTranslatedText);
-                tex
             } catch (JSONException e) {
                 e.printStackTrace();
             }

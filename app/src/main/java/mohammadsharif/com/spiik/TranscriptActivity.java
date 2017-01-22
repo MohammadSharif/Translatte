@@ -40,9 +40,9 @@ public class TranscriptActivity extends FragmentActivity  {
 
         // Get Read Text, get transcript language from OCR Bundle
         Bundle transcriptBundle = getIntent().getExtras();
-        ArrayList OCROutput = (ArrayList) transcriptBundle.get("readText");
+        ArrayList<String> oCROutput = (ArrayList<String>) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
-        Log.v(TAG, OCROutput.toString());
+        Log.v(TAG, oCROutput.toString());
 
 
 
@@ -56,6 +56,7 @@ public class TranscriptActivity extends FragmentActivity  {
             TranscriptMainFragment translateFragment = new TranscriptMainFragment();
             fragmentTransaction.add(R.id.activity_transcript, translateFragment, getString(R.string.fragment_transcript_main));
             fragmentTransaction.commit();
+
         }
     }
 
@@ -82,7 +83,6 @@ public class TranscriptActivity extends FragmentActivity  {
 ////                    .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
 //        }
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.animator.enter_from_bottom);
     }
 
     public boolean isConnected(){
