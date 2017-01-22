@@ -54,7 +54,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private HashMap<String, Locale> localeMap;
     private TranscriptActivity parentActivity;
     private String currentTranslatedText;
-    private String currentText;
+    public String currentText;
     RapidApiConnect connect = null;
 
     @Nullable
@@ -230,11 +230,12 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 Map<String, Argument> body = new HashMap<String, Argument>();
 
                 body.put("apiKey", new Argument("data", "AIzaSyDG12FxjQPxtgoe3sKLv-meHkkYlZQT4YM"));
-                body.put("string", new Argument("data", currentText));
+                body.put("string", new Argument("data", readText));
                 body.put("targetLanguage", new Argument("data", targetLang));
-                body.put("sourceLanguage", new Argument("data", sourceLang));
+//                body.put("sourceLanguage", new Argument("data", sourceLang));
                 Map<String, Object> response = connect.call("GoogleTranslate", "Translate", body);
                 if (response.get("success") != null) {
+                    Log.e("DANG:", response.toString());
                     return response;
                 } else {
                     Log.e("Momo", "The Translate API had an error responding");
@@ -268,16 +269,20 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
 
             try {
                 JSONObject translatedJSON = new JSONObject(map);
-                parentActivity.passTranslatedJSON( translatedJSON);
-                JSONObject data = translatedJSON.getJSONObject("data");
-                JSONArray translations = data.getJSONArray("translations");
+//                parentActivity.passTranslatedJSON( translatedJSON);
+//                JSONObject data = translatedJSON.getJSONObject("contextWrites");
+                String translations = translatedJSON.getString("success");
+                Log.i("JSON", translatedJSON.toString());
+
+
                 currentTranslatedText = "";
-                for(int i = 0; i < translations.length(); i++) {
-                    JSONObject curTranslation = translations.getJSONObject(i);
-                    String curTranslatedText = curTranslation.get("translatedText").toString();
-                    currentTranslatedText += curTranslatedText;
-                }
-                Log.i("translated data", currentTranslatedText);
+//                for(int i = 0; i < translations.length(); i++) {
+//                    JSONObject curTranslation = translations.getJSONObject(i);
+//                    String curTranslatedText = curTranslation.get("translatedText").toString();
+//                    currentTranslatedText += curTranslatedText;
+//                }
+                parentActivity.passTranslatedJSON(translations);
+                Log.i("translated data", translations);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
