@@ -223,6 +223,7 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
     @Override
     protected void onResume() {
         super.onResume();
+        textData.removeAll(textData);
         startCameraSource();
     }
 
