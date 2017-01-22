@@ -43,12 +43,9 @@ public class TranscriptTranslateFragment extends Fragment implements View.OnClic
         }
     }
 
-    public void setTranslatedJSON(JSONObject tJSON){
-        //set JSON
-        translatedJSON = tJSON;
-
+    public void setTranslatedJSON(String tJSON){
         //display on text view
-        transcript_translated_text.setText(tJSON.toString());
+        transcript_translated_text.setText(tJSON);
 
     }
 }

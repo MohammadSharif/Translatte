@@ -50,10 +50,15 @@ public class TranscriptActivity extends FragmentActivity  {
     }
 
     //set text on translate
-    public void setTextTranscript(ArrayList ocrOutput){
+    public void setTextTranscript(ArrayList<String> ocrOutput){
+        StringBuilder builder = new StringBuilder();
+        for(String str : ocrOutput){
+            builder.append(str);
+        }
+
         TranscriptMainFragment fragment = (TranscriptMainFragment) getFragmentManager().findFragmentById(R.id.fragment_transcript_main);
         if(fragment != null){
-            ((TextView) findViewById(R.id.transcript_original_text)).setText(ocrOutput.toString());
+            ((TextView) findViewById(R.id.transcript_original_text)).setText(builder.toString());
         }
     }
 
@@ -98,7 +103,7 @@ public class TranscriptActivity extends FragmentActivity  {
     }
 
 
-    public void passTranslatedJSON(JSONObject translatedJSON) {
+    public void passTranslatedJSON(String translatedJSON) {
         TranscriptTranslateFragment fragment = (TranscriptTranslateFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate));
         if(fragment != null) {
             fragment.setTranslatedJSON(translatedJSON);

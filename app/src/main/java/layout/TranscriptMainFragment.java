@@ -283,7 +283,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
 //                    String curTranslatedText = curTranslation.get("translatedText").toString();
 //                    currentTranslatedText += curTranslatedText;
 //                }
-                    //parentActivity.passTranslatedJSON(translations);
+                    parentActivity.passTranslatedJSON(translations);
                     Log.i("translated data", translations);
                 }
             } catch (JSONException e) {
