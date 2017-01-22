@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -40,9 +41,11 @@ public class TranscriptActivity extends FragmentActivity  {
 
         // Get Read Text, get transcript language from OCR Bundle
         Bundle transcriptBundle = getIntent().getExtras();
-        ArrayList OCROutput = (ArrayList) transcriptBundle.get("readText");
+        ArrayList ocrOutput = (ArrayList) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
-        Log.v(TAG, OCROutput.toString());
+        Log.v(TAG, ocrOutput.toString());
+
+        ((TextView) findViewById(R.id.transcript_original_text)).setText(ocrOutput.toString());
 
 
 
@@ -82,7 +85,6 @@ public class TranscriptActivity extends FragmentActivity  {
 ////                    .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
 //        }
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.animator.enter_from_bottom);
     }
 
     public boolean isConnected(){
