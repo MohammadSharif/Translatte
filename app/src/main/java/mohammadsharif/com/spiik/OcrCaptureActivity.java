@@ -89,8 +89,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        boolean autoFocus = true;
+        boolean useFlash = false;
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -264,8 +264,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // We have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
-            boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+            boolean autoFocus = true;
+            boolean useFlash = false;
             createCameraSource(autoFocus, useFlash);
             return;
         }
