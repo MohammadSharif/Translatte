@@ -37,6 +37,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -45,17 +46,20 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import mohammadsharif.com.spiik.ui.camera.CameraSource;
 import mohammadsharif.com.spiik.ui.camera.CameraSourcePreview;
 import mohammadsharif.com.spiik.ui.camera.GraphicOverlay;
+
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class OcrCaptureActivity extends AppCompatActivity {
+public final class OcrCaptureActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "OcrCaptureActivity";
 
     // Intent request code to handle updating play services if needed.
@@ -77,6 +81,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    private ArrayList<String> textData = new ArrayList<>();
+    private String language = null;
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -84,13 +91,15 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.ocr_capture);
+        Button handleTextButton = (Button)findViewById(R.id.button3);
+        handleTextButton.setOnClickListener(this);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        boolean autoFocus = true;
+        boolean useFlash = false;
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -264,8 +273,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // We have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
-            boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+            boolean autoFocus = true;
+            boolean useFlash = false;
             createCameraSource(autoFocus, useFlash);
             return;
         }
@@ -326,10 +335,12 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (graphic != null) {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+//                Intent data = new Intent();
+//                data.putExtra(TextBlockObject, text.getValue());
+//                setResult(CommonStatusCodes.SUCCESS, data);
+//                finish();
+                textData.add(text.getValue());
+                language = text.getLanguage();
             }
             else {
                 Log.d(TAG, "text data is null");
@@ -339,6 +350,14 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             Log.d(TAG,"no text detected");
         }
         return text != null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, TranscriptActivity.class);
+        intent.putExtra("readText", textData);
+        intent.putExtra("language", language);
+        startActivity(intent);
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {

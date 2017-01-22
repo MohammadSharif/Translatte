@@ -65,6 +65,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         transcript_play.setOnClickListener(this);
 
         tts = new TextToSpeech(this.getActivity().getBaseContext(), this);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
 
         //Check if connected to the internet
         if(!parentActivity.isConnected()){
