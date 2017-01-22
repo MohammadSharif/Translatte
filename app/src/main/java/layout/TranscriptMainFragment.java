@@ -36,11 +36,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import mohammadsharif.com.spiik.R;
 import mohammadsharif.com.spiik.TranscriptActivity;
 
+import com.rapidapi.rapidconnect.Argument;
 import com.rapidapi.rapidconnect.RapidApiConnect;
 
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
@@ -51,6 +53,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
     private HashMap<String, Locale> localeMap;
     private TranscriptActivity parentActivity;
     private String currentTranslatedText;
+    private String currentText;
+    RapidApiConnect connect = null;
 
     @Nullable
     @Override
@@ -63,6 +67,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         transcript_play = (Button) view.findViewById(R.id.transcript_play_button);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         transcript_original_text = (TextView) view.findViewById(R.id.transcript_original_text);
+        currentText = (String)transcript_original_text.getText();
 
         //setOnclickListeners
         transcript_translate.setOnClickListener(this);
@@ -76,7 +81,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
             transcript_original_text.setText("Oops! Something went wrong.. No Internet Connectivity");
         }
 
-        RapidApiConnect connect = new RapidApiConnect('Translatte', 'b4d6cbb4-e279-49f9-b1d4-b49d53428d91');
+        connect = new RapidApiConnect("Translatte", "b4d6cbb4-e279-49f9-b1d4-b49d53428d91");
         return view;
     }
 
@@ -149,13 +154,14 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         return loc.getLanguage();
     }
 
-    private class TranslateText extends AsyncTask<Void, Void, String> {
+    private class TranslateText extends AsyncTask<Void, Void, Map<String, Object>>{
         private String readText, sourceLang, targetLang;
         final String TRANSLATE_BASE_URL = "https://translation.googleapis.com/language/translate/v2?";
         final String TRANSLATE_API_KEY = "key";
         final String SOURCE_LANG = "source";
         final String TARGET_LANG = "target";
         final String READ_TEXT = "q";
+
 
         public TranslateText (String text, String sLang, String tLang ){
             super();
@@ -165,7 +171,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Map<String, Object> doInBackground(Void... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -175,75 +181,89 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("https")
-                        .authority("translation.googleapis.com")
-                        .appendPath("language")
-                        .appendPath("translate")
-                        .appendPath("v2")
-                        .appendQueryParameter(TRANSLATE_API_KEY, "AIzaSyDG12FxjQPxtgoe3sKLv-meHkkYlZQT4YM")
-                        .appendQueryParameter(SOURCE_LANG, sourceLang)
-                        .appendQueryParameter(TARGET_LANG, targetLang)
-                        .appendQueryParameter(READ_TEXT, readText)
-                        .build();
-                Log.v("TEST", builder.toString());
-                URL url = new URL(builder.toString());
-                // Create the request to OpenWeatherMap, and open the connection
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
+//                Uri.Builder builder = new Uri.Builder();
+//                builder.scheme("https")
+//                        .authority("translation.googleapis.com")
+//                        .appendPath("language")
+//                        .appendPath("translate")
+//                        .appendPath("v2")
+//                        .appendQueryParameter(TRANSLATE_API_KEY, "AIzaSyDG12FxjQPxtgoe3sKLv-meHkkYlZQT4YM")
+//                        .appendQueryParameter(SOURCE_LANG, sourceLang)
+//                        .appendQueryParameter(TARGET_LANG, targetLang)
+//                        .appendQueryParameter(READ_TEXT, readText)
+//                        .build();
+//                Log.v("TEST", builder.toString());
+//                URL url = new URL(builder.toString());
+//                // Create the request to OpenWeatherMap, and open the connection
+//                urlConnection = (HttpURLConnection) url.openConnection();
+//                urlConnection.setRequestMethod("GET");
+//                urlConnection.connect();
+//
+//                // Read the input stream into a String
+//                InputStream inputStream = urlConnection.getInputStream();
+//                StringBuffer buffer = new StringBuffer();
+//
+//
+//                if(urlConnection.getInputStream() == null){
+//                    return "Sorry, cannot translate this language.";
+//                }
+//
+//                reader = new BufferedReader(new InputStreamReader(inputStream));
+//
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+//                    // But it does make debugging a *lot* easier if you print out the completed
+//                    // buffer for debugging.  + "\n"
+//                    buffer.append(line);
+//                }
+//
+//                if (buffer.length() == 0) {
+//                    // Stream was empty.  No point in parsing.
+//                    return null;
+//                }
+//                return buffer.toString();
+                Map<String, Argument> body = new HashMap<String, Argument>();
 
-                // Read the input stream into a String
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-
-                if(urlConnection.getInputStream() == null){
-                    return "Sorry, cannot translate this language.";
+                body.put("apiKey", new Argument("data", "AIzaSyDG12FxjQPxtgoe3sKLv-meHkkYlZQT4YM"));
+                body.put("string", new Argument("data", currentText));
+                body.put("targetLanguage", new Argument("data", targetLang));
+                body.put("sourceLanguage", new Argument("data", sourceLang));
+                Map<String, Object> response = connect.call("GoogleTranslate", "Translate", body);
+                if (response.get("success") != null) {
+                    return response;
+                } else {
+                    Log.e("Momo", "The Translate API had an error responding");
                 }
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.  + "\n"
-                    buffer.append(line);
-                }
-
-                if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
-                    return null;
-                }
-                return buffer.toString();
             } catch (IOException e) {
                 // If the code didn't successfully get the weather data, there's no point in attemping
                 // to parse it.
-                return "Sorry, cannot translate this language.";
-
-            } finally{
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e("PlaceholderFragment", "Error closing stream", e);
-                    }
-                }
+                e.printStackTrace();
+//            } finally{
+//                if (urlConnection != null) {
+//                    urlConnection.disconnect();
+//                }
+//                if (reader != null) {
+//                    try {
+//                        reader.close();
+//                    } catch (final IOException e) {
+//                        Log.e("PlaceholderFragment", "Error closing stream", e);
+//                    }
+//                }
+//            }
             }
+            return null;
         }
 
 
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(Map<String, Object> map) {
+            super.onPostExecute(map);
 
             try {
-                JSONObject translatedJSON = new JSONObject(s);
+                JSONObject translatedJSON = new JSONObject(map);
                 parentActivity.passTranslatedJSON( translatedJSON);
                 JSONObject data = translatedJSON.getJSONObject("data");
                 JSONArray translations = data.getJSONArray("translations");
@@ -254,10 +274,11 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                     currentTranslatedText += curTranslatedText;
                 }
                 Log.i("translated data", currentTranslatedText);
+                tex
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("json", s + "d");
+            Log.i("json", map + "d");
         }
     }
 
