@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.app.Fragment;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import layout.TranscriptMainFragment;
 import layout.TranscriptTranslateFragment;
@@ -64,28 +66,19 @@ public class TranscriptActivity extends FragmentActivity  {
         }
     }
 
-
-    // Show Transcript Fragment
-    public void addTranscriptFragment(){
-        if(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_main)) == null){
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            TranscriptMainFragment translateFragment = new TranscriptMainFragment();
-            fragmentTransaction.add(R.id.activity_transcript, translateFragment, getString(R.string.fragment_transcript_main));
-            fragmentTransaction.commit();
-
-        }
-    }
-
     // Show translate Fragment
-    public void addTranslateFragment(){
+    public void addTranslateFragment(Locale translateLocale) {
         if(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) == null){
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
                     .setCustomAnimations( R.animator.exit_from_bottom, R.animator.enter_from_bottom);
             TranscriptTranslateFragment translateFragment = new TranscriptTranslateFragment();
+            translateFragment.setTranslatedLocale(translateLocale);
             fragmentTransaction.add(R.id.activity_transcript, translateFragment, getString(R.string.fragment_transcript_translate));
             fragmentTransaction.commit();
+        } else {
+            TranscriptTranslateFragment existingFrag = (TranscriptTranslateFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate));
+            existingFrag.setTranslatedLocale(translateLocale);
         }
     }
 
