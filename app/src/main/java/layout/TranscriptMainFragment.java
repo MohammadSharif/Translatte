@@ -147,8 +147,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         String locLang = spinner.getSelectedItem().toString();
         Locale loc = localeMap.get(locLang);
         tts.setLanguage(loc);
-        Log.i("speaking", currentTranslatedText);
-        tts.speak(currentTranslatedText, TextToSpeech.QUEUE_FLUSH, null, null);
+        Log.i("speaking", (String)transcript_original_text.getText());
+        tts.speak(transcript_original_text.getText(), TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
     private String getSpinnerLanguage(){
@@ -269,7 +269,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
             super.onPostExecute(map);
 
             try {
-                if(map != null){
+
+                if(map != null) {
                     JSONObject translatedJSON = new JSONObject(map);
 //                parentActivity.passTranslatedJSON( translatedJSON);
 //                JSONObject data = translatedJSON.getJSONObject("contextWrites");

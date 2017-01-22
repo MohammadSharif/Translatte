@@ -44,6 +44,8 @@ public class TranscriptActivity extends FragmentActivity  {
         ArrayList ocrOutput = (ArrayList) transcriptBundle.get("readText");
         String transcriptLanguage = (String) transcriptBundle.get("language");
 
+//        Log.v(TAG, transcriptLanguage);
+
         setTextTranscript(ocrOutput);
 
 
