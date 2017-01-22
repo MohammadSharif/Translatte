@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -23,23 +25,46 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import layout.TranscriptMainFragment;
 import layout.TranscriptTranslateFragment;
 
 public class TranscriptActivity extends FragmentActivity  {
-
+    private static final String TAG = "TranscriptActivity: ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transcript);
+
+        // Get Read Text, get transcript language from OCR Bundle
+        Bundle transcriptBundle = getIntent().getExtras();
+        ArrayList OCROutput = (ArrayList) transcriptBundle.get("readText");
+        String transcriptLanguage = (String) transcriptBundle.get("language");
+        Log.v(TAG, OCROutput.toString());
+
+
+
+    }
+
+    // Show Transcript Fragment
+    public void addTranscriptFragment(){
+        if(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_main)) == null){
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            TranscriptMainFragment translateFragment = new TranscriptMainFragment();
+            fragmentTransaction.add(R.id.activity_transcript, translateFragment, getString(R.string.fragment_transcript_main));
+            fragmentTransaction.commit();
+        }
     }
 
     // Show translate Fragment
     public void addTranslateFragment(){
         if(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) == null){
             FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                    .setCustomAnimations( R.animator.exit_from_bottom, R.animator.enter_from_bottom);
             TranscriptTranslateFragment translateFragment = new TranscriptTranslateFragment();
             fragmentTransaction.add(R.id.activity_transcript, translateFragment, getString(R.string.fragment_transcript_translate));
             fragmentTransaction.commit();
@@ -48,12 +73,17 @@ public class TranscriptActivity extends FragmentActivity  {
 
     // KILL translate fragment
     public void killTranslateFragment() {
-        if (getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) != null) {
-            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
-        }
+//        if (getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate)) != null) {
+//
+//
+//
+////            getFragmentManager().beginTransaction()
+////                    .setCustomAnimations(R.animator.enter_from_bottom, R.animator.enter_from_bottom)
+////                    .remove(getFragmentManager().findFragmentByTag(getString(R.string.fragment_transcript_translate))).commit();
+//        }
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.animator.enter_from_bottom);
     }
-
-
 
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);

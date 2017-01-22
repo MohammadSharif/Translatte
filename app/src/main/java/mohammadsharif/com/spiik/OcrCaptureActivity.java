@@ -370,6 +370,8 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, TranscriptActivity.class);
+
+        Log.d(TAG, textData.toString());
         intent.putExtra("readText", textData);
         intent.putExtra("language", language);
         startActivity(intent);
