@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 
@@ -17,7 +18,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button openCamera = (Button)findViewById(R.id.button2);
+        ImageButton openCamera = (ImageButton)findViewById(R.id.button2);
         openCamera.setOnClickListener(this);
     }
 

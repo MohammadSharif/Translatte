@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,13 +12,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="mohammadsharif.com.spiik.Homepage">
 
-    <Button
+    <ImageButton
         android:text="Open Camera"
+        android:background="@color/transparent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:id="@+id/button2"
+        app:srcCompat="@drawable/logo"
+        android:layout_alignParentStart="true"
+        android:maxWidth="25dp"
+        android:maxHeight="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="103dp"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"/>
+        android:scaleX=".5"
+        android:scaleY=".5"/>
 </RelativeLayout>
