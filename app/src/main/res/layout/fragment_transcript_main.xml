@@ -27,9 +27,8 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </Spinner>
+        android:layout_weight="1"
+        android:id="@+id/spinner" />
 
     <LinearLayout
         android:layout_width="match_parent"
