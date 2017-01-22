@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_transcript"
@@ -10,25 +10,41 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="mohammadsharif.com.spiik.TranscriptActivity"
-    android:orientation="vertical">
-
-    <ScrollView
+    tools:context="mohammadsharif.com.spiik.TranscriptActivity">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""/>
+            android:layout_height="0dp"
+            android:layout_weight="6">
 
-    </ScrollView>
+            <TextView
+                android:id="@+id/transcript_translated_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Play"/>
+        </ScrollView>
 
-</LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Play"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/transcript_translate_cancel_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="50dp"
+        android:background="@color/transparent"
+        android:layout_height="50dp"
+        android:src="@drawable/cancel"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/cancel_padding"/>
+
+</RelativeLayout>

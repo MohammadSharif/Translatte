@@ -18,9 +18,10 @@
         android:layout_weight="6">
 
         <TextView
+            android:id="@+id/transcript_original_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=""/>
+            android:text="What is your name?"/>
 
     </ScrollView>
 
@@ -37,6 +38,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/transcript_play_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
