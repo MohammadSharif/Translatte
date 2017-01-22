@@ -41,6 +41,8 @@ import java.util.Set;
 import mohammadsharif.com.spiik.R;
 import mohammadsharif.com.spiik.TranscriptActivity;
 
+import com.rapidapi.rapidconnect.RapidApiConnect;
+
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
     private Button transcript_translate, transcript_play;
     private TextView transcript_original_text;
@@ -73,6 +75,8 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         if(!parentActivity.isConnected()){
             transcript_original_text.setText("Oops! Something went wrong.. No Internet Connectivity");
         }
+
+        RapidApiConnect connect = new RapidApiConnect('Translatte', 'b4d6cbb4-e279-49f9-b1d4-b49d53428d91');
         return view;
     }
 
