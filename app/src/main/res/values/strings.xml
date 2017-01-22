@@ -16,4 +16,6 @@
     <string name="ocr_failure">No text captured</string>
     <string name="ocr_error">"Error reading text: %1$s"</string>
     <string name="fragment_transcript_translate">fragment_transcript_translate</string>
+    <string name="fragment_transcript_original">fragment_transcript_original</string>
+    <string name="fragment_transcript_main">fragment_transcript_main</string>
 </resources>

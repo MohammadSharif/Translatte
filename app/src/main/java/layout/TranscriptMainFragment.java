@@ -81,7 +81,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
                 //call translate api and pass to addtranslatefragment
                 TranslateText request = new TranslateText(transcript_original_text.getText().toString(), "en", getSpinnerLanguage());
                 request.execute();
-                ((TranscriptActivity)getActivity()).addTranslateFragment();
+                parentActivity.addTranslateFragment();
                 break;
             case R.id.transcript_play_button:
                 speakOut();

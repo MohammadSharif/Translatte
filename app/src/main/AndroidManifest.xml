@@ -16,18 +16,20 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".TranscriptActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".OcrCaptureActivity">
 
         </activity>
 
-        <activity android:name=".Homepage"></activity>
+        <activity android:name=".Homepage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
