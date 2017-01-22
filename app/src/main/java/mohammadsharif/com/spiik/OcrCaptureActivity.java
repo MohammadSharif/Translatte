@@ -46,6 +46,8 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import mohammadsharif.com.spiik.ui.camera.CameraSource;
 import mohammadsharif.com.spiik.ui.camera.CameraSourcePreview;
 import mohammadsharif.com.spiik.ui.camera.GraphicOverlay;
+
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
@@ -80,6 +82,7 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
     private GestureDetector gestureDetector;
 
     private ArrayList<String> textData = new ArrayList<>();
+    private String language = null;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -337,6 +340,7 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
 //                setResult(CommonStatusCodes.SUCCESS, data);
 //                finish();
                 textData.add(text.getValue());
+                language = text.getLanguage();
             }
             else {
                 Log.d(TAG, "text data is null");
@@ -352,6 +356,7 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         Intent intent = new Intent(this, TranscriptActivity.class);
         intent.putExtra("readText", textData);
+        intent.putExtra("language", language);
         startActivity(intent);
     }
 
