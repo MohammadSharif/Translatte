@@ -25,6 +25,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,6 +56,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -330,7 +334,8 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
      * @return true if the activity is ending.
      */
     private boolean onTap(float rawX, float rawY) {
-        OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+        final OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
+
         TextBlock text = null;
         if (graphic != null) {
             text = graphic.getTextBlock();
@@ -341,6 +346,16 @@ public final class OcrCaptureActivity extends AppCompatActivity implements View.
 //                finish();
                 textData.add(text.getValue());
                 language = text.getLanguage();
+//                graphic.isSelected = true;
+//                graphic.sRectPaint.setColor(Color.GREEN);
+
+                Context context = getApplicationContext();
+                CharSequence message = "Text has been read successfully!";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, message, duration);
+                toast.show();
+
+//                graphic.paintRectangle(Color.GREEN, c);
             }
             else {
                 Log.d(TAG, "text data is null");

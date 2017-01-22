@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".TranscriptActivity">
+        <activity android:name=".Homepage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +27,7 @@
 
         </activity>
 
-        <activity android:name=".Homepage"></activity>
+        <activity android:name=".TranscriptActivity"></activity>
     </application>
 
 </manifest>
