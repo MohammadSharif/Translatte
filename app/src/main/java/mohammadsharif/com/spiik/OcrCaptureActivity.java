@@ -37,6 +37,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -49,13 +50,14 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class OcrCaptureActivity extends AppCompatActivity {
+public final class OcrCaptureActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "OcrCaptureActivity";
 
     // Intent request code to handle updating play services if needed.
@@ -77,6 +79,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    private ArrayList<String> textData = new ArrayList<>();
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -84,6 +88,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.ocr_capture);
+        Button handleTextButton = (Button)findViewById(R.id.button3);
+        handleTextButton.setOnClickListener(this);
 
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
@@ -326,10 +332,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (graphic != null) {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
-                Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+//                Intent data = new Intent();
+//                data.putExtra(TextBlockObject, text.getValue());
+//                setResult(CommonStatusCodes.SUCCESS, data);
+//                finish();
+                textData.add(text.getValue());
             }
             else {
                 Log.d(TAG, "text data is null");
@@ -339,6 +346,13 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             Log.d(TAG,"no text detected");
         }
         return text != null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, TranscriptActivity.class);
+        intent.putExtra("readText", textData);
+        startActivity(intent);
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {

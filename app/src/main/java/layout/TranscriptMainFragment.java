@@ -26,7 +26,7 @@ import mohammadsharif.com.spiik.R;
 import mohammadsharif.com.spiik.TranscriptActivity;
 
 public class TranscriptMainFragment extends Fragment implements View.OnClickListener, TextToSpeech.OnInitListener {
-    private Button transcript_translate;
+    private Button transcript_translate, transcript_play_button;
     private TextToSpeech tts;
     private Spinner spinner;
     private HashMap<String, Locale> localeMap;
@@ -43,7 +43,7 @@ public class TranscriptMainFragment extends Fragment implements View.OnClickList
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
         //Check if connected to the internet
-       
+
         return view;
     }
 

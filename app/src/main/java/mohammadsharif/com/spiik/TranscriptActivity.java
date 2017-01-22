@@ -20,7 +20,7 @@ public class TranscriptActivity extends FragmentActivity  {
     }
 
     // Show translate View
-    public void addTranscriptFragment(){
+    public void addTranslateFragment(){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TranscriptTranslateFragment translateFragment = new TranscriptTranslateFragment();
